@@ -1,5 +1,4 @@
 fun main() {
-  // 1, 2, 2, 3, 5, 6
   val arr1 = intArrayOf(1, 2, 3, 0, 0, 0)
   val arr2 = intArrayOf(2, 5, 6)
   merge(
@@ -8,10 +7,11 @@ fun main() {
     nums2 = arr2,
     n = arr2.size,
   )
+  // 1, 2, 2, 3, 5, 6
   println(arr1.joinToString())
 }
 
-fun merge(
+private fun merge(
   nums1: IntArray,
   m: Int,
   nums2: IntArray,
