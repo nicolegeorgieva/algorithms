@@ -9,12 +9,12 @@ fun main() {
 private fun reverseArray(arr: IntArray) {
   val swaps = arr.size / 2
   for (i in 0..<swaps) {
-    arr.swap(a = i, j = arr.lastIndex - i)
+    arr.swap(a = i, b = arr.lastIndex - i)
   }
 }
 
-private fun IntArray.swap(a: Int, j: Int) {
+private fun IntArray.swap(a: Int, b: Int) {
   val saved = this[a]
-  this[a] = this[j]
-  this[j] = saved
+  this[a] = this[b]
+  this[b] = saved
 }
