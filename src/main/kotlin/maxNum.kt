@@ -14,8 +14,7 @@ private fun maxNum(nums: IntArray): Int? {
   if (nums.isEmpty()) return null
   var maxNumber = nums[0]
 
-  for (i in nums.indices) {
-    if (i == 0) continue
+  for (i in 1..nums.size - 1) {
     if (nums[i] > maxNumber) {
       maxNumber = nums[i]
     }
