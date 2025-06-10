@@ -1,32 +1,31 @@
 fun main() {
-  val people = Queue<String>(4)
-  println(people.enqueue("N"))
-  println(people.enqueue("I"))
+  val people = Queue<String>(1)
+  // true
+  println(people.enqueue("A"))
+  // A
+  println(people.dequeue())
+  // D
   println(people.enqueue("B"))
+  // false
   println(people.enqueue("C"))
-
-  // N
-  println(people.dequeue())
-  // I
-  println(people.dequeue())
-  // B
-  println(people.peek())
-  println(people.enqueue("D"))
-  println(people.dequeue())
 }
 
-
-class Queue<T>(size: Int) {
+class Queue<T>(
+  private val size: Int
+) {
   private val queue = MutableList<T?>(size = size, init = { null })
   private var firstIndex = -1
   private var lastIndex = -1
 
   fun enqueue(t: T): Boolean {
-    if (lastIndex + 2 > queue.size) return false
-
-    if (firstIndex < 0) firstIndex = 0
-    lastIndex++
+    if (isFull()) return false
+    if (firstIndex < 0 && lastIndex < 0) {
+      firstIndex = 0
+      lastIndex = 0
+    }
+    lastIndex = lastIndex % size
     queue[lastIndex] = t
+    lastIndex++
     return true
   }
 
@@ -41,6 +40,8 @@ class Queue<T>(size: Int) {
    */
   fun peek(): T? {
     return if (isEmpty()) {
+      firstIndex = -1
+      lastIndex = -1
       null
     } else {
       queue[firstIndex]
@@ -48,6 +49,11 @@ class Queue<T>(size: Int) {
   }
 
   fun isEmpty(): Boolean {
-    return firstIndex < 0 && lastIndex < 0
+    return (firstIndex < 0 && lastIndex < 0) || (firstIndex > size - 1)
+  }
+
+  fun isFull(): Boolean {
+    if (isEmpty()) return false
+    return (lastIndex == firstIndex) || (lastIndex % size == 0)
   }
 }
