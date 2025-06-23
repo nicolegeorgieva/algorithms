@@ -1,0 +1,37 @@
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+
+fun main(): Unit = runBlocking {
+  val searchQueryFlow = MutableStateFlow("")
+  launch {
+    delay(2_000)
+    searchQueryFlow.value = "kotlin"
+    delay(1_000)
+    searchQueryFlow.value = "android"
+  }
+  val articles = fetchArticles()
+
+  val filteredArticles = searchQueryFlow.map { query ->
+    articles.filter { article ->
+      article.contains(query, ignoreCase = true)
+    }
+  }
+
+  filteredArticles.collectLatest {
+    println(it)
+  }
+}
+
+private suspend fun fetchArticles(): List<String> {
+  delay(2_000)
+  return listOf(
+    "Kotlin Flow Explained",
+    "Jetpack Compose Basics",
+    "Coroutines Best Practices",
+    "Advanced Android Development"
+  )
+}
