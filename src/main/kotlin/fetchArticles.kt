@@ -1,6 +1,8 @@
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -12,16 +14,30 @@ fun main(): Unit = runBlocking {
     searchQueryFlow.value = "kotlin"
     delay(1_000)
     searchQueryFlow.value = "android"
+    delay(5_000)
+    searchQueryFlow.value = "compose"
   }
-  val articles = fetchArticles()
-
-  val filteredArticles = searchQueryFlow.map { query ->
-    articles.filter { article ->
-      article.contains(query, ignoreCase = true)
+  val articlesFlow = flow {
+    while(true) {
+      emit(fetchArticles())
+      delay(1_000)
     }
   }
 
-  filteredArticles.collectLatest {
+  val combined = combine(
+    flow = searchQueryFlow,
+    flow2 = articlesFlow,
+    transform = { query, articles ->
+        articles.filter {
+          it.contains(
+            other = query,
+            ignoreCase = true,
+          )
+        }
+    }
+  )
+
+  combined.collectLatest {
     println(it)
   }
 }
