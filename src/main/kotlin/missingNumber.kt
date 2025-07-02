@@ -6,15 +6,14 @@ fun main() {
 
 // numbers: 0-n, where n is the count of nums
 private fun missingNumber(nums: IntArray): Int {
-  var sumOfAll = 0
-  var sumOfNums = 0
+  val numsCount = nums.size
+  var actualSum = 0
 
   for (i in nums.indices) {
-    sumOfAll += i
-    sumOfNums += nums[i]
+    actualSum += nums[i]
   }
 
-  sumOfAll += nums.size
+  val expectedSum = (numsCount * (numsCount + 1)) / 2
 
-  return sumOfAll - sumOfNums
+  return expectedSum - actualSum
 }
