@@ -27,6 +27,8 @@ fun main() {
       }
     }
   }
+
+  println(findNode(root = grandFather, valueToFind = "Father"))
 }
 
 class Node<T>(val value: T) {
@@ -39,4 +41,21 @@ class Node<T>(val value: T) {
   override fun toString(): String {
     return "Node(value=$value, children=${children.size})"
   }
+}
+
+private fun <T> findNode(root: Node<T>, valueToFind: T): Node<T>? {
+  if (root.value == valueToFind) return root
+  val children = root.children
+
+  for (child in children) {
+    val foundNode = findNode(
+      root = child,
+      valueToFind = valueToFind
+    )
+    if (foundNode != null) {
+      return foundNode
+    }
+  }
+
+  return null
 }
