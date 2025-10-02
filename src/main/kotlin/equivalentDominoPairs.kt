@@ -8,14 +8,21 @@ e.g. Input: dominoes = [[1,2],[2,1],[3,4],[5,6]]
 => Output: 1
  */
 private fun numEquivDominoPairs(dominoes: Array<IntArray>): Int {
-  var equivalent = 0
+  val uniquePairs = mutableMapOf<IntArray, Int>()
   var index = 0
 
   while (index < dominoes.size) {
-    // TODO
+
+    for (i in 0 until dominoes.size) {
+      if (i == index) continue
+      if (isEqual(dominoes[index],dominoes[i])) {
+        uniquePairs[dominoes[index]] = uniquePairs[dominoes[index]]?.plus(1) ?: 2
+      }
+    }
+    index++
   }
 
-  return equivalent
+  TODO()
 }
 
 private fun isEqual(firstPair: IntArray, secondPair: IntArray): Boolean {
