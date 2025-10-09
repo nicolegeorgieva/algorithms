@@ -18,7 +18,7 @@ private enum class MatrixDirection {
   Up,
 }
 
-data class ListNode(var `val`: Int) {
+private data class ListNode(var `val`: Int) {
   var next: ListNode? = null
 }
 
