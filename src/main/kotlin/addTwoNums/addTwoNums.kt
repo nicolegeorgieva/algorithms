@@ -19,32 +19,41 @@ private class ListNode(var `val`: Int) {
 private fun addTwoNumbers(l1: ListNode?, l2: ListNode?): ListNode? {
   if (l1 == null || l2 == null) return null
 
-  val num1 = l1.toList()
-  val num2 = l2.toList()
+  var node1 = l1
+  var node2 = l2
 
-  var carry = 0
-  val resNum = mutableListOf<Int>()
-  var index = 0
+  var carry = false
+  var resHead: ListNode? = null
+  var resCurrentNode = resHead
 
-  while (index < num1.size || index < num2.size) {
-    val currentCount = (num1.getOrNull(index) ?: 0) + (num2.getOrNull(index) ?: 0) + carry
+  while (node1 != null || node2 != null) {
+    val currentCount = (node1?.`val` ?: 0) + (node2?.`val` ?: 0) + (if (carry) 1 else 0)
 
-    if (currentCount > 9) {
-      resNum.add(currentCount % 10)
-      carry = 1
+    val num = if (currentCount > 9) {
+      carry = true
+      currentCount % 10
     } else {
-      resNum.add(currentCount)
-      carry = 0
+      carry = false
+      currentCount
+    }
+    if (resHead == null) {
+      resHead = ListNode(num)
+      resCurrentNode = resHead
+    } else {
+      val newNode = ListNode(num)
+      resCurrentNode!!.next = newNode
+      resCurrentNode = newNode
     }
 
-    index++
+    node1 = node1?.next
+    node2 = node2?.next
   }
 
-  if (carry == 1) {
-    resNum.add(carry)
+  if (carry) {
+    resCurrentNode?.next = ListNode(1)
   }
 
-  return resNum.toListNode()
+  return resHead
 }
 
 private fun List<Int>.toListNode(): ListNode? {
