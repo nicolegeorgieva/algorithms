@@ -1,10 +1,9 @@
 package addTwoNums
 
 fun main() {
-  val list = listOf(9)
-  val list2 = listOf(1, 9, 9, 9, 9, 9, 9, 9, 9, 9)
+  val list = listOf(2, 4, 3)
+  val list2 = listOf(5, 6, 4)
 
-  // [7,0,8]
   println(
     addTwoNumbers(
       l1 = list.toListNode(),
@@ -20,14 +19,32 @@ private class ListNode(var `val`: Int) {
 private fun addTwoNumbers(l1: ListNode?, l2: ListNode?): ListNode? {
   if (l1 == null || l2 == null) return null
 
-  val firstNum = l1.toList().reversed().joinToString("").toBigDecimal()
-  val secondNum = l2.toList().reversed().joinToString("").toBigDecimal()
+  val num1 = l1.toList()
+  val num2 = l2.toList()
 
-  val sumReversed = (firstNum + secondNum).toString().reversed().toList().map { char ->
-    char.digitToInt()
+  var carry = 0
+  val resNum = mutableListOf<Int>()
+  var index = 0
+
+  while (index < num1.size || index < num2.size) {
+    val currentCount = (num1.getOrNull(index) ?: 0) + (num2.getOrNull(index) ?: 0) + carry
+
+    if (currentCount > 9) {
+      resNum.add(currentCount % 10)
+      carry = 1
+    } else {
+      resNum.add(currentCount)
+      carry = 0
+    }
+
+    index++
   }
 
-  return sumReversed.toListNode()
+  if (carry == 1) {
+    resNum.add(carry)
+  }
+
+  return resNum.toListNode()
 }
 
 private fun List<Int>.toListNode(): ListNode? {
