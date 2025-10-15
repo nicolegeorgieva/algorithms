@@ -4,6 +4,7 @@ fun main() {
   val list = listOf(2, 4, 3)
   val list2 = listOf(5, 6, 4)
 
+  // [7, 0, 8]
   println(
     addTwoNumbers(
       l1 = list.toListNode(),
