@@ -7,7 +7,7 @@ private fun majorityElement(nums: IntArray): Int {
   val numsMap = mutableMapOf<Int, Int>()
 
   for (num in nums) {
-    numsMap[num] = (numsMap[num]?:0) + 1
+    numsMap[num] = (numsMap[num] ?: 0) + 1
   }
 
   return numsMap.maxBy {
