@@ -1,14 +1,14 @@
 fun main() {
   // 7
-  println(maxProfit(intArrayOf(7, 1, 5, 3, 6, 4)))
+  println(maxProfit2(intArrayOf(7, 1, 5, 3, 6, 4)))
   // 4
-  println(maxProfit(intArrayOf(1, 2, 3, 4, 5)))
+  println(maxProfit2(intArrayOf(1, 2, 3, 4, 5)))
   // 0
-  println(maxProfit(intArrayOf(7, 6, 4, 3, 1)))
+  println(maxProfit2(intArrayOf(7, 6, 4, 3, 1)))
 }
 
 // We can only hold 1 stock at a time; can buy and sell multiple times on the same day
-private fun maxProfit(prices: IntArray): Int {
+private fun maxProfit2(prices: IntArray): Int {
   var stock = prices[0]
   var profit = 0
 
