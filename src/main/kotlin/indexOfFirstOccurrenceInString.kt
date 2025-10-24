@@ -16,7 +16,7 @@ private fun strStr(haystack: String, needle: String): Int {
 
 private fun checkMatch(haystack: String, needle: String, offset: Int): Boolean {
   for (i in 0..needle.lastIndex) {
-    if (needle[i] != haystack[offset + i]) return false
+    if (haystack[offset + i] != needle[i]) return false
   }
 
   return true
