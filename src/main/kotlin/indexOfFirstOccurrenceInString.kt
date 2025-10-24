@@ -7,9 +7,17 @@ fun main() {
 
 private fun strStr(haystack: String, needle: String): Int {
   for (i in 0..haystack.lastIndex - needle.lastIndex) {
-    val potentialMatch = haystack.substring(i..i + needle.lastIndex)
-    if (potentialMatch == needle) return i
+    val found = checkMatch(haystack = haystack, needle = needle, offset = i)
+    if (found) return i
   }
 
   return -1
+}
+
+private fun checkMatch(haystack: String, needle: String, offset: Int): Boolean {
+  for (i in 0..needle.lastIndex) {
+    if (needle[i] != haystack[offset + i]) return false
+  }
+
+  return true
 }
