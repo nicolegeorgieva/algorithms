@@ -15,7 +15,7 @@ fun main() {
   println(map["Anny"])
 }
 
-class MyHashMap : HashMap {
+private class MyHashMap : HashMap {
   val arr = Array<MutableList<Pair<String, Int>>>(4) {
     mutableListOf()
   }
@@ -65,14 +65,14 @@ class MyHashMap : HashMap {
   }
 }
 
-interface HashMap {
+private interface HashMap {
   operator fun get(key: String): Int?
   operator fun set(key: String, value: Int)
   fun remove(key: String)
   operator fun contains(key: String): Boolean
 }
 
-fun myHashMap(vararg pairs: Pair<String, Int>) = MyHashMap().apply {
+private fun myHashMap(vararg pairs: Pair<String, Int>) = MyHashMap().apply {
   for ((key, value) in pairs) {
     set(key, value)
   }
