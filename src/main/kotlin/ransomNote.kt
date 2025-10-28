@@ -13,16 +13,19 @@ Input: ransomNote = "aa", magazine = "aab"
 Output: true
  */
 private fun canConstruct(ransomNote: String, magazine: String): Boolean {
-  val lettersInMagazine = mutableMapOf<Char, Int>()
+  val lettersInMagazine = IntArray(26) { 0 }
 
   for (char in magazine) {
-    lettersInMagazine[char] = (lettersInMagazine[char] ?: 0) + 1
+    val index = char.code - 'a'.code
+    lettersInMagazine[index] += 1
   }
 
   for (char in ransomNote) {
-    val charInMagazine = lettersInMagazine[char] ?: return false
-    if (charInMagazine - 1 < 0) return false
-    lettersInMagazine[char] = charInMagazine - 1
+    val indexOfChar = char.code - 'a'.code
+
+    if (lettersInMagazine[indexOfChar] - 1 < 0) return false
+
+    lettersInMagazine[indexOfChar] -= 1
   }
 
   return true
