@@ -1,3 +1,5 @@
+import kotlin.math.absoluteValue
+
 fun main() {
   val map = myHashMap()
   map["Iliyan"] = 3
@@ -59,7 +61,7 @@ class MyHashMap : HashMap {
   }
 
   private fun String.hash(): Int {
-    return this.length % arr.size
+    return this.hashCode().absoluteValue % arr.size
   }
 }
 
