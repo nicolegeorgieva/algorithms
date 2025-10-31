@@ -7,6 +7,8 @@ fun main() {
   println(isIsomorphic(s = "badc", t = "baba"))
   // false
   println(isIsomorphic(s = "egcd", t = "adfd"))
+  // true
+  println(isIsomorphic(s = "title", t = "paper"))
 }
 
 /*
@@ -20,13 +22,17 @@ private fun isIsomorphic(s: String, t: String): Boolean {
   if (s == t) return true
   if (s.length != t.length) return false
 
-  val mapping = mutableMapOf<Char, Char>()
+  val sMapping = mutableMapOf<Char, Char>()
+  val tMapping = mutableMapOf<Char, Char>()
 
   for (i in s.indices) {
-    val currentChar = s[i]
-    if (t[i] in mapping.values && mapping.entries.first { it.value == t[i] }.key != currentChar) return false
-    if (mapping[currentChar] != null && mapping[currentChar] != t[i]) return false
-    mapping[currentChar] = t[i]
+    val sC = s[i]
+    val tC = t[i]
+    if (sC in sMapping && sMapping[sC]!! != tC) return false
+    if (tC in tMapping && tMapping[tC]!! != sC) return false
+
+    sMapping[sC] = tC
+    tMapping[tC] = sC
   }
 
   return true
