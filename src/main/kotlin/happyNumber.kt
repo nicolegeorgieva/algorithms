@@ -18,7 +18,6 @@ private fun isHappy(n: Int): Boolean {
   return false
 }
 
-// 199
 private fun magicSum(n: Int): Int {
   var x = n
   var sum = 0
