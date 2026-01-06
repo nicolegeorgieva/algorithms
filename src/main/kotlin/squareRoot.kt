@@ -1,3 +1,5 @@
+import kotlin.math.round
+
 fun main() {
   // 2
   println(mySqrt(2147483647))
@@ -18,11 +20,15 @@ fun main() {
 // Returns the square root of x rounded down to the nearest integer
 // Res should not be negative
 private fun mySqrt(x: Int): Int {
-  val t = x.toLong()
-  var num = x.toLong()
-  while (num * num > t) {
+  return exactSqrt(x.toDouble()).toInt()
+}
+
+private fun exactSqrt(t: Double): Double {
+  var num = t / 2
+
+  while (round(num * num) != t) {
     num = (num + (t / num)) / 2
   }
 
-  return num.toInt()
+  return num
 }
