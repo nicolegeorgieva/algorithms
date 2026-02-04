@@ -8,36 +8,22 @@ fun main() {
 }
 
 // 1, 8, 2, 5; target: 10
-// 1, 2, 5, 8
 private fun twoSum(nums: IntArray, target: Int): IntArray {
   var indices = IntArray(size = 2) { -1 }
+  val numsMap = mutableMapOf<Int, Int>()
 
-  var sortedArr = nums.sorted()
-  var firstNum = 0
-  var secondNum = 0
-  var lookFromRightToLeft = false
-  var index = 0
-
-  if (target > 5) {
-    lookFromRightToLeft = true
-    index = sortedArr.lastIndex
+  for (i in nums.indices) {
+    numsMap[nums[i]] = i
   }
 
-  while (indices[0] == -1 && indices[1] == -1) {
-    firstNum = sortedArr[index]
-    secondNum = target - firstNum
-    if (firstNum + secondNum == target && secondNum in sortedArr) {
-      indices[0] = nums.indexOf(firstNum)
-      if (firstNum == secondNum) {
-        nums[nums.indexOf(firstNum)] = -1
-      }
-      indices[1] = nums.indexOf(secondNum)
-    } else {
-      if (lookFromRightToLeft) {
-        index--
-      } else {
-        index++
-      }
+  for (i in nums.indices) {
+    val secondNum = target - nums[i]
+    val secondNumIndex = numsMap[secondNum]
+
+    if (secondNumIndex != null && secondNumIndex != i) {
+      indices[0] = i
+      indices[1] = secondNumIndex
+      return indices
     }
   }
 
