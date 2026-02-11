@@ -1,55 +1,4 @@
 fun main() {
-  /*
- [
-  CharOccurence(
-     rowIndex = 1,
-     columnIndex = 0,
-   ),
-   CharOccurence(
-     rowIndex = 1,
-     columnIndex = 3,
-   ),
-   ]
-   */
-  println(
-    findOccurencesOfChar(
-      board = arrayOf(
-        charArrayOf('A', 'B', 'C', 'E'),
-        charArrayOf('S', 'F', 'C', 'S'),
-        charArrayOf('A', 'D', 'E', 'E')
-      ),
-      char = 'S'
-    )
-  )
-
-  /*
- [
-  CharOccurence(
-     rowIndex = 0,
-     columnIndex = 3,
-   ),
-   CharOccurence(
-     rowIndex = 2,
-     columnIndex = 3,
-   ),
-   ]
-   */
-  println(
-    findMatchingNeighborsOfChar(
-      board = arrayOf(
-        charArrayOf('A', 'B', 'C', 'E'),
-        charArrayOf('S', 'F', 'C', 'S'),
-        charArrayOf('A', 'D', 'E', 'E')
-      ),
-      charOccurence = CharOccurence(
-        rowIndex = 1,
-        columnIndex = 3,
-      ),
-      matchingChar = 'E'
-    )
-  )
-
-  // true
   println(
     exist(
       board = arrayOf(
@@ -57,99 +6,85 @@ fun main() {
         charArrayOf('S', 'F', 'C', 'S'),
         charArrayOf('A', 'D', 'E', 'E')
       ),
-      word = "ABCCED",
-    )
-  )
-  // true
-  println(
-    exist(
-      board = arrayOf(
-        charArrayOf('A', 'B', 'C', 'E'),
-        charArrayOf('S', 'F', 'C', 'S'),
-        charArrayOf('A', 'D', 'E', 'E')
-      ),
-      word = "SEE",
+      word = "SEE"
     )
   )
 }
 
-private fun exist(board: Array<CharArray>, word: String): Boolean {
-  return false
+private data class Coord(val r: Int, val c: Int)
+
+private fun exist(
+  board: Array<CharArray>,
+  word: String
+): Boolean {
+  val starts = findStarts(
+    board = board,
+    target = word.first()
+  )
+  return starts.any { start ->
+    search(
+      board = board,
+      start = start,
+      word = word,
+      seen = emptySet(),
+    )
+  }
 }
 
-private data class CharOccurence(
-  val rowIndex: Int,
-  val columnIndex: Int,
-)
-
-private fun findOccurencesOfChar(
+private fun findStarts(
   board: Array<CharArray>,
-  char: Char,
-): List<CharOccurence> {
-  val res = mutableListOf<CharOccurence>()
-
-  for (rowIndex in board.indices) {
-    for (columnIndex in board[rowIndex].indices) {
-      if (char == board[rowIndex][columnIndex]) {
-        res += CharOccurence(
-          rowIndex = rowIndex,
-          columnIndex = columnIndex,
-        )
-      }
-    }
+  target: Char
+): List<Coord> = board.foldIndexed(
+  listOf<Coord>()
+) { r, acc, row ->
+  acc + row.foldIndexed(
+    listOf<Coord>()
+  ) { c, rms, char ->
+    if (char == target)
+      rms + Coord(r, c)
+    else rms
   }
-
-  return res
 }
 
-private fun findMatchingNeighborsOfChar(
+private fun search(
   board: Array<CharArray>,
-  charOccurence: CharOccurence,
-  matchingChar: Char,
-): List<CharOccurence> {
-  val matchingNeighbors = mutableListOf<CharOccurence>()
-  val row = charOccurence.rowIndex
-  val column = charOccurence.columnIndex
+  start: Coord,
+  word: String,
+  seen: Set<Coord>,
+): Boolean {
+  if (word == "") return true
+  if (start.r !in board.indices) return false
+  if (start.c !in board[0].indices) return false
+  if (start in seen) return false
 
-  // up
-  if (row - 1 >= 0) {
-    if (board[row - 1][column] == matchingChar) {
-      matchingNeighbors += CharOccurence(
-        rowIndex = row - 1,
-        columnIndex = column,
+  val char = board[start.r][start.c]
+  if (char != word.first()) return false
+
+  val nw = word.drop(1)
+  val nSeen = seen + start
+
+  return search(
+    board = board,
+    start = Coord(start.r - 1, start.c),
+    word = nw,
+    seen = nSeen,
+  ) ||
+      search(
+        board = board,
+        start = Coord(start.r + 1, start.c),
+        word = nw,
+        seen = nSeen,
+      ) ||
+      search(
+        board = board,
+        start = Coord(start.r, start.c - 1),
+        word = nw,
+        seen = nSeen,
+      ) ||
+      search(
+        board = board,
+        start = Coord(start.r, start.c + 1),
+        word = nw,
+        seen = nSeen,
       )
-    }
-  }
-
-  // down
-  if (row + 1 <= board.size) {
-    if (board[row + 1][column] == matchingChar) {
-      matchingNeighbors += CharOccurence(
-        rowIndex = row + 1,
-        columnIndex = column,
-      )
-    }
-  }
-
-  // left
-  if (column - 1 >= 0) {
-    if (board[row][column - 1] == matchingChar) {
-      matchingNeighbors += CharOccurence(
-        rowIndex = row,
-        columnIndex = column - 1,
-      )
-    }
-  }
-
-  // right
-  if (column + 1 <= board.size) {
-    if (board[row][column + 1] == matchingChar) {
-      matchingNeighbors += CharOccurence(
-        rowIndex = row,
-        columnIndex = column + 1,
-      )
-    }
-  }
-
-  return matchingNeighbors
 }
