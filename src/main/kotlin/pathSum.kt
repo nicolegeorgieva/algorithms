@@ -28,6 +28,7 @@ class TreeNode(var `val`: Int) {
 fun hasPathSum(root: TreeNode?, targetSum: Int): Boolean {
   if (root == null) return false
   if (root.left == null && root.right == null) return targetSum == root.`val`
+
   return hasPathSum(root = root.left, targetSum = targetSum - root.`val`) ||
       hasPathSum(root = root.right, targetSum = targetSum - root.`val`)
 }
