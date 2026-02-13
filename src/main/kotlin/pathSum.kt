@@ -11,6 +11,7 @@ fun main() {
   root.left?.left?.right = TreeNode(2)
   root.right?.right?.right = TreeNode(1)
 
+  // true
   println(
     hasPathSum(
       root = root,
