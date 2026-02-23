@@ -1,23 +1,23 @@
-import kotlin.math.abs
-
 fun main() {
   // 3
   println(findMaxK(nums = intArrayOf(-1, 2, -3, 3)))
 }
 
 private fun findMaxK(nums: IntArray): Int {
-  val sortedNums = nums.toSet().sorted()
-  var l = 0
-  var r = sortedNums.size - 1
+  val negativeNums = hashSetOf<Int>()
+  var result = -1
 
-  while (l < r) {
-    if (sortedNums[r] == abs(sortedNums[l])) return sortedNums[r]
-    if (sortedNums[r] > abs(sortedNums[l])) {
-      r--
-    } else {
-      l++
+  for (num in nums) {
+    if (num < 0) {
+      negativeNums.add(num)
     }
   }
 
-  return -1
+  for (num in nums) {
+    if (negativeNums.contains(-num) && num > result) {
+      result = num
+    }
+  }
+
+  return result
 }
