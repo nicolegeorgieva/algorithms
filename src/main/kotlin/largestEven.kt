@@ -14,16 +14,16 @@ fun main() {
 }
 
 private fun largestEven(s: String): String {
-  var newString = s
-  for (i in newString.length - 1 downTo 0) {
-    if (newString[i].digitToInt() != 2) {
-      newString = newString.dropLast(1)
-    } else {
-      return newString
+  var lastIndex = -1
+  for (i in s.length - 1 downTo 0) {
+    if (s[i] == '2') {
+      lastIndex = i
+      break
     }
   }
 
-  return newString
+  if (lastIndex == -1) return ""
+  return s.substring(0, lastIndex + 1)
 }
 
 private fun largestEven2(s: String): String = s.dropLastWhile { it.digitToInt() != 2 }
